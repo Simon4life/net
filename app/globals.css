@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.image{
+  width: 415px !important;
+  height: 415px !important;
+}
+
+.contactimage{
+  width: auto !important;
+  height: 520px !important;
+}
+
+.slide.selected{
+  z-index: 1 !important;
+}
+
+.aboutimage{
+  height: 500px !important;
+  width: auto !important;
+}
