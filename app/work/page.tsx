@@ -2,7 +2,8 @@
 
 import React from "react";
 import { MdArrowUpward } from "react-icons/md";
-import Hero from "../components/Hero";
+import GeneralHero from "../components/hero-general";
+import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 
 const fadeInUp: Variants = {
@@ -14,94 +15,118 @@ const fadeInUp: Variants = {
   }),
 };
 
-const services = [
+const projects = [
   {
-    title: "Cyber Security",
-    description:
-      "Shield your organization from evolving threats with our 24/7 security infrastructure and proactive threat monitoring.",
-    color: "bg-purple-100",
-    icon: "🛡️",
+    title: "Revamp for LuxeFashion",
+    description: "Rebuilt a fast, responsive Shopify store with modern UX.",
+    image: "/fashion-ecommerce.webp",
+    tags: ["e-commerce", "web development"],
   },
   {
-    title: "Cloud & Web Hosting",
-    description:
-      "Reliable, high-performance hosting solutions tailored for scale, speed, and security across cloud and web platforms.",
-    color: "bg-neutral-50",
-    icon: "☁️",
+    title: "Rebrand for FlowStack SaaS",
+    description: "Delivered a full rebrand and responsive website.",
+    image: "/web-hosting.png",
+    tags: ["branding", "ui/ux", "web development"],
   },
   {
-    title: "Web & App Development",
-    description:
-      "Modern, responsive websites and mobile apps built using the latest frameworks to deliver seamless user experiences.",
-    color: "bg-blue-100",
-    icon: "💻",
+    title: "Campaign Site for GreenEarth NGO",
+    description: "Built a donation platform for eco-campaign outreach.",
+    image: "/network-security.png",
+    tags: ["web development", "Nonprofit", "Campaign"],
   },
   {
-    title: "Digital Marketing",
-    description:
-      "Custom strategies in SEO, PPC, and content marketing to elevate your brand visibility and drive results.",
-    color: "bg-yellow-100",
-    icon: "📈",
+    title: "Logo + Identity for FinLaunch",
+    description: "Crafted a bold logo and visual identity for a fintech startup.",
+    image: "/digital-agency.jpeg",
+    tags: ["branding"],
   },
   {
-    title: "Data Protection & Backup",
-    description:
-      "Protect sensitive business data with advanced encryption, regular backups, and robust recovery strategies.",
-    color: "bg-green-100",
-    icon: "🔐",
-  },
-  {
-    title: "IT Consulting & Support",
-    description:
-      "Expert IT support and consulting services to streamline operations and align your tech stack with your business goals.",
-    color: "bg-rose-100",
-    icon: "🧠",
+    title: "Cyber Security Dashboard",
+    description: "Designed and developed a dashboard for network monitoring.",
+    image: "/web-hosting.png",
+    tags: ["web development", "cybersecurity", "ui/ux"],
   },
 ];
 
+
 export default function MarketingServicesGrid() {
+  
+  const tabs = ["All", "branding", "web development", "ui/ux", "cybersecurity"];
+  const [activeTab, setActiveTab] = useState("All");
+  console.log(activeTab);
   return (
     <>
-      <Hero
+      <GeneralHero
         header="Net-Trix Digital Services"
         subheader="We empower businesses with tailored digital solutions—from hosting and security to full-scale web development and marketing strategies."
-      />
+        links={false}/>
 
       <section className="px-6 md:px-12 py-20 max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-10 text-center text-gray-800">
-          What We Offer
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map(({ title, description, color, icon }, i) => (
-            <motion.div
-              key={title}
-              className={`p-6 rounded-md border shadow-sm ${color}`}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              custom={i}
-            >
-              <div className="text-3xl mb-4">{icon}</div>
-              <h2 className="text-xl font-semibold mt-16 text-gray-900 mb-2">
-                {title}
-              </h2>
-              <p className="text-gray-700 mb-4 text-sm text-justify leading-relaxed">
-                {description}
-              </p>
-              <button className="inline-flex items-center gap-1 text-sm font-medium text-gray-900">
-                Learn more <MdArrowUpward className="w-4 h-4" />
-              </button>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      <section className="px-6 md:px-12 pb-24 max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose Net-Trix?</h2>
-        <p className="text-gray-700 text-base leading-relaxed max-w-3xl mx-auto">
+    
+        <h2 className="text-3xl text-center md:text-4xl font-bold mb-4">Why Choose Net-Trix?</h2>
+        <p className="text-gray-700 text-center mb-8 text-base leading-relaxed max-w-3xl mx-auto">
           Net-Trix is your partner in the digital world. Whether you're launching a startup, scaling a business, or transforming legacy systems—we bring the creativity, expertise, and dedication needed to make it work. With our client-first mindset and tech-driven solutions, we turn complex challenges into elegant outcomes.
         </p>
+
+        <div className="flex flex-wrap justify-center gap-4 mb-6 border-b pb-4">
+          {tabs.map((tab, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveTab(tab)}
+              className={`text-sm sm:text-base font-semibold pb-2 ${
+                activeTab === tab
+                  ? "border-b-2 border-black"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {
+            projects
+              .filter((project) => {
+                if (activeTab === "All") {
+                  return true;
+                } else if (project.tags.includes(activeTab.toLowerCase())) {
+                  return true;
+                }
+                return false;
+              })
+              .map((project, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeInUp}
+                  custom={index}
+                >
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                    <p className="text-gray-600 mb-4">{project.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag, i) => (
+                        <span
+                          key={i}
+                          className="inline-block bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+          }
+        </div>
       </section>
     </>
   );

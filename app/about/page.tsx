@@ -1,29 +1,43 @@
 'use client'
 import React from 'react'
-import Hero from '../components/Hero'
 import { FaTerminal, FaLightbulb } from 'react-icons/fa'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
- 
+import { FaLinkedin, FaTwitter } from 'react-icons/fa';
+import GeneralHero from '../components/hero-general'
+import Link from 'next/link'
+
 const teamMembers = [
   {
     name: 'John Michael',
     role: 'Project Manager',
     description: 'Excellent organizational skills',
     image: '/worker.jpg',
+    socials: [
+      { href: '#', label: 'Twitter', icon: <FaTwitter /> },
+      { href: '#', label: 'LinkedIn', icon: <FaLinkedin /> },
+    ]
   },
   {
     name: 'John Michael',
     role: 'SEO Specialist',
     description: 'Communication, multitasking.',
     image: '/worker.jpg',
+    socials: [
+      { href: '#', label: 'Twitter', icon: <FaTwitter /> },
+      { href: '#', label: 'LinkedIn', icon: <FaLinkedin /> },
+    ]
   },
   {
     name: 'John Michael',
     role: 'CO Founder',
     description: 'Graphic design, UI/UX, branding.',
     image: '/worker.jpg',
+    socials: [
+      { href: '#', label: 'Twitter', icon: <FaTwitter /> },
+      { href: '#', label: 'LinkedIn', icon: <FaLinkedin /> },
+    ]
   },
 ]
 
@@ -62,9 +76,10 @@ const variants: Variants = {
 const page = () => {
   return (
     <>
-      <Hero
+      <GeneralHero
         header="Innovative solutions for brands"
         subheader="Enjoy exclusive benefits premium innovative solutions for brands to our subscribers."
+        links={false}
       />
       <motion.section
         className="max-w-6xl mx-auto px-6 py-16"
@@ -153,6 +168,24 @@ const page = () => {
                 <div className="p-4 text-center">
                   <h3 className="text-lg font-semibold">{member.name}</h3>
                   <p className="text-sm text-gray-500">{member.description}</p>
+                </div>
+                <div className="flex space-x-6 mt-2 mb-2 justify-center">
+                    {
+                      member.socials?.map(({ icon, href, label }, index) => (
+                      <motion.a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={label}
+                        whileHover={{ scale: 1.2, rotate: 5, opacity: 0.9 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ type: 'spring', stiffness: 300 }}
+                        className="text-white hover:text-yellow-300 text-2xl"
+                        >
+                          <span className="text-black">{icon}</span>
+                      </motion.a>
+                  ))
+                    }          
                 </div>
               </motion.div>
             ))}

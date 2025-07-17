@@ -1,88 +1,119 @@
 'use client';
 
-import { MdArrowOutward } from 'react-icons/md';
+import { useEffect, useState } from 'react';
+import { MdArrowOutward, MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import { motion, AnimatePresence } from 'framer-motion';
+import { easeInOut } from 'framer-motion';
 import Link from 'next/link';
-import React from 'react';
-import { motion } from 'framer-motion';
 
-interface HeroInterface {
-  header: string;
-  subheader: string;
-  links?: boolean;
-}
+const slides = [
+  {
+    header: 'Empowering Your Digital Future',
+    subheader: 'At Net-Trix, we merge strategy, design, and technology to help businesses thrive.',
+    bgImage: "/hero-img.jpg",
+  },
+  {
+    header: 'Web Hosting. Cybersecurity. AI.',
+    subheader: 'One agency. All the digital tools you need to scale with confidence.',
+    bgImage: "/data-protection.jpg",
+  },
+  {
+    header: 'Join The Gʊd AI’diea Campaign',
+    subheader: 'Innovating with purpose—discover our mission to reshape digital engagement.',
+    bgImage: "/hero-img.jpg",
+  },
+];
 
-const Hero = ({ header, subheader, links }: HeroInterface) => {
+const varia = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? '100%' : '-100%',
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: easeInOut,
+    },
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? '-100%' : '100%',
+    opacity: 0,
+    transition: {
+      duration: 0.8,
+      ease: easeInOut,
+    },
+  }),
+};
+
+
+export default function HeroSlider() {
+  const [[index, direction], setIndex] = useState([0, 0]);
+
+  const paginate = (newDirection: number) => {
+    setIndex(([prevIndex]) => {
+      const nextIndex = (prevIndex + newDirection + slides.length) % slides.length;
+      return [nextIndex, newDirection];
+    });
+  };
+
+  // Auto slide every 5s
+  useEffect(() => {
+    const timer = setInterval(() => paginate(1), 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const { header, subheader, bgImage } = slides[index];
+
   return (
-    <section className="relative min-h-screen bg-[url('/hero-img.jpg')] bg-cover bg-center flex flex-col justify-center items-center text-white text-center px-6 py-20 overflow-hidden">
-      {/* Dark overlay */}
-      <motion.div
-        className="absolute inset-0 bg-black/80"
-        initial={{ scale: 1.2, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1, ease: 'easeOut' }}
-      ></motion.div>
-
-      {/* Text Content */}
-      <motion.div
-        className="z-10 text-center"
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: {},
-          visible: {
-            transition: {
-              staggerChildren: 0.2,
-            },
-          },
-        }}
-      >
-        <motion.h1
-          className="text-4xl md:text-5xl font-bold mb-4"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+    <section className="relative min-h-screen overflow-hidden text-white">
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.div
+          key={index}
+          custom={direction}
+          variants={varia}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          className="absolute inset-0 bg-cover bg-center flex items-center justify-center px-6 text-center"
+          style={{ backgroundImage: `url(${bgImage})` }}
         >
-          {header}
-        </motion.h1>
-
-        <motion.p
-          className="text-lg md:text-xl mb-8"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9 }}
-        >
-          {subheader}
-        </motion.p>
-
-        {links && (
-          <motion.div
-            className="flex flex-col md:flex-row gap-8 justify-center items-center font-semibold"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1 }}
-          >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <div className="absolute inset-0 bg-black/70" />
+          <motion.div className="z-10 max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">{header}</h1>
+            <p className="text-lg md:text-xl mb-8">{subheader}</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 font-semibold">
               <Link
                 href="/services"
-                className="px-5 py-6 rounded flex items-center justify-center text-black bg-purple-300 hover:bg-yellow-100 transition"
+                className="px-6 py-4 bg-purple-300 text-black rounded hover:bg-yellow-200 transition flex items-center"
               >
-                Get Started <span className="ml-4"><MdArrowOutward /></span>
+                Get Started <MdArrowOutward className="ml-2" />
               </Link>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 href="/campaign"
-                className="border-b inline-block border-white text-white py-2 hover:text-yellow-600 transition"
+                className="border-b border-white hover:text-yellow-300"
               >
                 Join the Campaign
               </Link>
-            </motion.div>
+            </div>
           </motion.div>
-        )}
-      </motion.div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Controls */}
+      <button
+        onClick={() => paginate(-1)}
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full bg-black/50 hover:bg-black"
+      >
+        <MdChevronLeft size={30} />
+      </button>
+      <button
+        onClick={() => paginate(1)}
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full bg-black/50 hover:bg-black"
+      >
+        <MdChevronRight size={30} />
+      </button>
     </section>
   );
-};
-
-export default Hero;
+}
