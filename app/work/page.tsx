@@ -5,7 +5,7 @@ import { MdArrowUpward } from "react-icons/md";
 import GeneralHero from "../components/hero-general";
 import { useState } from "react";
 import { motion, Variants } from "framer-motion";
-
+import ProcessSteps from "../components/WorkProcess";
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
@@ -127,7 +127,9 @@ export default function MarketingServicesGrid() {
               ))
           }
         </div>
+        
       </section>
+      <ProcessSteps />
     </>
   );
 }

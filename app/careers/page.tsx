@@ -1,11 +1,14 @@
+"use client"
 import React from 'react'
-import Hero from '../components/Hero'
 import Card from "../components/Card";
 import Image from 'next/image';
 import { FaLaptopCode } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { Variants } from "framer-motion";
 import { PiPaintBrushBroad } from "react-icons/pi";
 import { MdOutlineSupportAgent, MdOutlineSecurity } from "react-icons/md";
 import { SiGoogletagmanager } from "react-icons/si";
+import GeneralHero from '../components/hero-general';
 import StepCard from "../components/WorkProcess";
 
 const jobOpenings = [
@@ -50,12 +53,10 @@ const jobOpenings = [
 const CareersPage = () => {
   return (
     <main>
-      <Hero 
-        header="Careers at Net Trix" 
-        subheader="Join our mission to build digital experiences that move brands forward." 
-        links
-      />
-
+      <GeneralHero
+        header="Careers at Net Trix"
+        subheader="Join our mission to build digital experiences that move brands forward."
+        links={false}/>
       <section className="py-16 px-6 max-w-6xl mx-auto">
         {/* Introduction */}
         <div className="flex flex-col md:flex-row mb-12 gap-8 items-center">
@@ -68,7 +69,7 @@ const CareersPage = () => {
 
           <div className="flex-shrink-0">
             <Image
-              src="/teamwork.jpg"
+              src="/Gud3.jpg"
               alt="Team working together"
               width={550}
               height={550}
@@ -108,7 +109,7 @@ const CareersPage = () => {
 
           <div className="flex-shrink-0">
             <Image
-              src="/how-we-work.jpg"
+              src="/Gud5.jpg"
               alt="How we work"
               width={550}
               height={550}

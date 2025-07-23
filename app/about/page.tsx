@@ -8,6 +8,15 @@ import { FaLinkedin, FaTwitter } from 'react-icons/fa';
 import GeneralHero from '../components/hero-general'
 import Link from 'next/link'
 
+const companies = [
+  { name: 'green', logo: '/green_logo.png' },
+  { name: 'Kaduna govt', logo: '/kad_logo.png' },
+  { name: 'ministry of human affairs', logo: '/min_human_logo.png' },
+  { name: 'mtn', logo: '/mtn_logo.png' },
+  { name: 'ncc', logo: '/ncc_logo.png' },
+];
+
+
 const teamMembers = [
   {
     name: 'John Michael',
@@ -143,6 +152,29 @@ const page = () => {
           </div>
         </div>
 
+      <h2 className='text-center font-bold text-3xl my-10'>Our Clients</h2>
+      <div className="w-full overflow-hidden bg-gray-100 mt-8 py-8">
+      <motion.div
+        className="flex gap-16 whitespace-nowrap"
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{
+          repeat: Infinity,
+          ease: 'linear',
+          duration: 30,
+        }}
+      >
+        {[...companies, ...companies].map((company, index) => (
+          <img
+            key={index}
+            src={company.logo}
+            alt={company.name}
+            className="h-12 grayscale hover:grayscale-0 transition duration-300 ease-in-out"
+          />
+        ))}
+      </motion.div>
+    </div>
+
+
         <section className="bg-white py-16">
           <h2 className="text-2xl font-semibold text-center mb-10">Meet Our Team</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-0">
@@ -174,6 +206,7 @@ const page = () => {
                       member.socials?.map(({ icon, href, label }, index) => (
                       <motion.a
                         href={href}
+                        key={index}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={label}
